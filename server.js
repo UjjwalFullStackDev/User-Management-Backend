@@ -1,6 +1,7 @@
 const express = require('express');
 const sequelize = require('./config/db');
-const router = require('./routes/authRoute');
+const authRouter = require('./routes/authRoute');
+const userRoute = require('./routes/userRoute');
 require('dotenv').config();
 
 
@@ -14,12 +15,13 @@ sequelize.authenticate()
 .then(() => console.log("Database Connected"))
 .catch((err) => console.error("Error connecting DB", err))
 
-sequelize.sync({alter: true})
+sequelize.sync()
 .then(() => console.log("Models synced with DB"))
 .catch((err) => console.error('Error syncing models: ', err))
 
 
-app.use('/',router)
+app.use('/',authRouter)
+app.use('/',userRoute)
 
 
 app.listen(port, () => {
